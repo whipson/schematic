@@ -15,3 +15,27 @@ A Schema object
 \description{
 Create a schema object
 }
+\examples{
+# Simple schema with one declared column
+my_schema <- schema(
+  mpg ~ is.double
+)
+
+# Multiple columns
+my_schema <- schema(
+  Sepal.Length ~ is.numeric,
+  Species ~ is.factor
+)
+
+# Use tidyselect syntax and anonymous functions
+my_schema <- schema(
+  starts_with("Sepal") ~ is.numeric,
+  c(Petal.Length, Petal.Width) ~ function(x) all(x > 0)
+)
+
+# Use named arguments to customize error messages
+my_schema <- schema(
+  `Must be a positive number` = cyl ~ function(x) all(x > 0)
+)
+
+}

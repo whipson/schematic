@@ -2,3 +2,17 @@ url: https://whipson.github.io/schematic/
 template:
   bootstrap: 5
 
+reference:
+- title: Schemas
+- contents:
+  - check_schema
+  - schema
+  - print.Schema
+- title: Predicates
+  desc: Functions that must return a single TRUE or FALSE indicating the pass or fail of the check
+  contents:
+  - starts_with("is_")
+- title: Modifiers
+  desc: Functions that modify predicates to make new predicates
+  contents:
+  - starts_with("mod_")

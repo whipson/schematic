@@ -4,6 +4,29 @@
 #' @return A Schema object
 #' @importFrom tidyselect starts_with ends_with contains matches num_range all_of any_of everything last_col where
 #' @export
+#' @examples
+#' # Simple schema with one declared column
+#' my_schema <- schema(
+#'   mpg ~ is.double
+#' )
+#'
+#' # Multiple columns
+#' my_schema <- schema(
+#'   Sepal.Length ~ is.numeric,
+#'   Species ~ is.factor
+#' )
+#'
+#' # Use tidyselect syntax and anonymous functions
+#' my_schema <- schema(
+#'   starts_with("Sepal") ~ is.numeric,
+#'   c(Petal.Length, Petal.Width) ~ function(x) all(x > 0)
+#' )
+#'
+#' # Use named arguments to customize error messages
+#' my_schema <- schema(
+#'   `Must be a positive number` = cyl ~ function(x) all(x > 0)
+#' )
+#'
 schema <- function(...) {
 
   dots <- rlang::enquos(...)

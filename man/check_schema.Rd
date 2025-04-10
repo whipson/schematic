@@ -17,3 +17,12 @@ invisible if validation passes, otherwise stops with error
 \description{
 Validate a data.frame against a schema
 }
+\examples{
+
+my_schema <- schema(
+  mpg ~ is.numeric
+)
+
+check_schema(mtcars, my_schema)
+
+}

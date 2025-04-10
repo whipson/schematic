@@ -16,10 +16,11 @@ Imports:
   rlang,
   tidyselect
 Suggests:
-    testthat (>= 3.0.0)
+  knitr,
+  rmarkdown,
+  quarto,
+  testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Depends: 
     R (>= 4.1.0)
-VignetteBuilder: 
-  knitr,
-  quarto
+VignetteBuilder: quarto, knitr

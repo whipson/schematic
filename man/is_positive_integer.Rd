@@ -2,7 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{is_positive_integer}
 \alias{is_positive_integer}
-\title{Check if a vector is a positive integer}
+\title{Check if a vector has all positive integers}
 \usage{
 is_positive_integer(x)
 }
@@ -13,5 +13,17 @@ is_positive_integer(x)
 TRUE if all elements are positive integers (NA ignored)
 }
 \description{
-Check if a vector is a positive integer
+A positive integer is a whole number that is greater than 0.
+}
+\details{
+This check requires `is.integer(x)` to be true. If you want a more
+flexible check that allows for numbers of type `numeric` but still
+want them to be integers, then use `is_whole_number()`.
+
+`NA`s are ignored as long as they are `NA_integer`.
+}
+\examples{
+is_positive_integer(c(1L, 2L, 4L)) # TRUE
+is_positive_integer(2.4) # FALSE
+is_positive_integer(-3) # FALSE
 }

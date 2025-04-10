@@ -62,3 +62,21 @@ test_that("check_schema works with named args", {
     regexp = "is a positive whole number"
   )
 })
+
+test_that("check_schema errors on non TRUE/FALSE check", {
+  df <- mtcars
+  sch <- schema(
+    c(cyl, am) ~ as.character
+  )
+  expect_error(
+    expect_warning(check_schema(df, sch), "All predicate")
+  )
+})
+
+test_that("check_schema works on non-definite selector", {
+  df <- mtcars
+  sch <- schema(
+    starts_with("blahblah") ~ as.character
+  )
+  expect_invisible(check_schema(df, sch))
+})

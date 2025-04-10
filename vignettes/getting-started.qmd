@@ -1,0 +1,98 @@
+---
+title: "Getting Started"
+vignette: >
+  %\VignetteIndexEntry{Getting Started}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The purpose of schematic is to make data validation easy, expressive, and user-focused. A common pain point of data validation is communicating bad data to users. schematic helps by crafting informative error messages that convey *all* schema problems. As a developer, you can guide non-data users to fix problems with their data.
+
+```{r setup}
+library(schematic)
+```
+
+Let's start with some sample data of 5 people who answered 3 yes/no questions.
+
+```{r}
+survey_data <- data.frame(
+  id = c(1:3, NA, 5),
+  name = c("Emmett", "Billy", "Sally", "Woolley", "Duchess"),
+  age = c(19.2, 10, 22.5, 19, 19),
+  sex = c("M", "M", "F", "M", NA),
+  q_1 = c(TRUE, FALSE, FALSE, FALSE, TRUE),
+  q_2 = c(FALSE, FALSE, TRUE, TRUE, TRUE),
+  q_3 = c(TRUE, TRUE, TRUE, TRUE, FALSE)
+)
+```
+
+## Create a schema
+
+A schema is a set of rules for columns in a data.frame. These rules are usually to do with the type of data and its contents. A rule consists of two parts:
+
+1.  **Selector** - the column(s) on which to apply to rule
+2.  **Predicate** - a function that must return a single TRUE or FALSE indicating the pass or fail of the check
+
+We declare a schema using `schema()`. Note that we do not need to provide any data at this point, so the schema can be easily reused. Note that schematic has several predicate functions built in to address common validations.
+
+Each rule follows the format `selector ~ predicate`. Provide the column names using `tidyselect` syntax and then after the tilde can be any callable function.
+
+```{r}
+my_schema <- schema(
+  id ~ is_incrementing,
+  id ~ is_all_distinct,
+  c(name, sex) ~ is.character,
+  c(id, age) ~ is_whole_number,
+  education ~ is.factor,
+  sex ~ function(x) all(x %in% c("M", "F")),
+  starts_with("q_") ~ is.logical,
+  final_score ~ is.numeric
+)
+```
+
+## Check data against schema
+
+Once the schema has been created, you can apply it against the data. This applies all the schema checks and then reports any failures as an error message.
+
+```{r}
+#| error: true
+check_schema(
+  data = survey_data,
+  schema = my_schema
+)
+```
+
+What distinguishes schematic from other data validation packages is its holistic error messaging, informing the user on all failures.
+
+## Customizing the message
+
+By default the error message is helpful for developers, but if you need to communicate the schema mismatch to a non-technical person they'll have trouble understanding some or all of the errors. You can customize the output of each rule by inputting the rule as a named argument.
+
+Let's fix up the previous example to make the messages more understandable.
+
+```{r}
+#| error: true
+my_helpful_schema <- schema(
+  "values are increasing" = id ~ is_incrementing,
+  "values are all distinct" = id ~ is_all_distinct,
+  "is a string" = c(name, sex) ~ is.character,
+  "is a whole number (no decimals)" = c(id, age) ~ is_whole_number,
+  "has only entries 'F' or 'M'" = sex ~ function(x) all(x %in% c("M", "F")),
+  "includes only TRUE or FALSE" = starts_with("q_") ~ is.logical,
+  "is a number" = final_score ~ is.numeric
+)
+
+check_schema(
+  data = survey_data,
+  schema = my_helpful_schema
+)
+```
+
+Now the message is easier for a non-technical person to understand and could be exposed to users in Shiny app or plumber endpoint.

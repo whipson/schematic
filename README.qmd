@@ -13,7 +13,7 @@ default-image-extension: ""
 
 # schematic
 
-schematic is an R package that makes it easy to validate a data.frame against a schema—checking column types, nullability, and more. It’s designed with user-facing applications in mind, providing clear and expressive error messages that help users understand and fix their data issues.
+schematic makes it easy to validate a data.frame against a schema. It’s designed to provide clear and expressive error messages that help users understand and fix data issues.
 
 Key features of schematic include:
 
@@ -22,6 +22,8 @@ Key features of schematic include:
 💬 User-friendly error messages designed for use in Shiny apps and APIs
 
 📋 Comprehensive reporting of all schema violations, not just the first
+
+🪶 Lightweight and dependency-conscious—minimal overhead, easy to integrate
 
 Use schematic when you want flexible and expressive schema validation, especially in contexts where informative feedback matters—like a Shiny app, a plumber endpoint, or any tool that consumes user-submitted data (e.g., .csv uploads).
 
@@ -35,9 +37,18 @@ Use `schema()` to create a Schema. Names and tidyselect expressions on the left 
 ```{r}
 library(schematic)
 
+# Test data.frame with some errors sprinkled in
+my_df <- data.frame(
+  ints = 1L:5L,
+  num1 = rnorm(5),
+  num2 = rpois(1, 5),
+  fct1 = letters[1:5],
+  another_fct = letters[6:10],
+  times = "2025-04-09"
+)
+
 my_schema <- schema(
   ints ~ is.integer,
-  pos_int ~ is_positive_integer,
   starts_with("num") ~ is.numeric,
   c(fct1, another_fct) ~ is.factor,
   times ~ function(x) inherits(x, "POSIXct"),
@@ -49,25 +60,13 @@ my_schema <- schema(
 
 ```{r}
 #| error: true
-
-# Test data.frame with some errors sprinkled in
-my_df <- data.frame(
-  ints = 1L:5L,
-  pos_int = 1L:5L,
-  num1 = rnorm(5),
-  num2 = rpois(1, 5),
-  fct1 = letters[1:5],
-  another_fct = letters[6:10],
-  times = "2025-04-09"
-)
-
 check_schema(
   my_df,
   my_schema
 )
 ```
 
-You can also supply argument names in `schema()` to customize the output of the message.
+You can also supply argument names in `schema()` to customize the output of the message. This is particularly helpful when you want to present a user with an informative message such as in a Shiny app.
 
 ```{r}
 #| error: true

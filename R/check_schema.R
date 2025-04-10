@@ -4,14 +4,27 @@
 #' @param schema A Schema object created with `schema()`
 #' @return invisible if validation passes, otherwise stops with error
 #' @export
+#' @examples
+#'
+#' my_schema <- schema(
+#'   mpg ~ is.numeric
+#' )
+#'
+#' check_schema(mtcars, my_schema)
+#'
 check_schema <- function(data, schema) {
 
   stopifnot(inherits(schema, "Schema"))
+  stopifnot(inherits(data, "data.frame"))
 
   pred_names <- names(schema)
   pred_names <- ifelse(trimws(pred_names) == "", NA, pred_names)
 
   missing_cols_vec <- c()
+  invalid_preds_list <- list(
+    col = character(),
+    pred = character()
+  )
 
   results <- purrr::map(schema, ~{
     selector <- rlang::f_lhs(.x)
@@ -38,7 +51,13 @@ check_schema <- function(data, schema) {
     purrr::map(cols, ~{
       actual_class <- class(data[[.x]])
       result <- tryCatch({
-        stopifnot(predicate(data[[.x]]))
+        check_pass <- predicate(data[[.x]])
+        if (!is.logical(check_pass)) {
+          invalid_preds_list$col <<- c(invalid_preds_list$col, .x)
+          invalid_preds_list$pred <<- c(invalid_preds_list$pred, rlang::as_label(predicate_fm))
+          FALSE
+        }
+        stopifnot(check_pass)
         TRUE
       }, error = function(e) {
         FALSE
@@ -59,6 +78,15 @@ check_schema <- function(data, schema) {
   if (length(fail_idx) == 0 && length(missing_cols_vec) == 0) return(invisible())
 
   out_c <- c()
+
+  if (length(invalid_preds_list[[1]]) > 0) {
+    cols_ticked <- paste0("`", invalid_preds_list$col, "`")
+    plural_prefix <- glue::glue(cli::pluralize("Column{?s} {cols_ticked}"))
+    msg <- glue::glue("{plural_prefix} invalid predicate `{invalid_preds_list$pred[[1]]}`")
+    cli::cli_warn(
+      c(msg, "i" = "All predicate functions must return a single TRUE/FALSE")
+    )
+  }
 
   if (!is.null(missing_cols_vec)) {
     cols_ticked <- paste0("`", missing_cols_vec, "`")
