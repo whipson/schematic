@@ -1,0 +1,17 @@
+Package: schematic
+Title: User Facing Schema Validation for Data Frames
+Version: 0.0.0.9000
+Authors@R: person("Will", "Hipson", email = "will.e.hipson@gmail.com", role = c("aut", "cre"))
+Description: Validate data.frames against schemas using tidyselect and predicate functions with a focus on user-facing error messages.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Imports:
+  cli,
+  glue,
+  purrr,
+  rlang,
+  tidyselect
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
