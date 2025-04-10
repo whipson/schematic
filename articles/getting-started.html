@@ -10,9 +10,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="getting-started_files/libs/quarto-html/popper.min.js"></script><script src="getting-started_files/libs/quarto-html/tippy.umd.min.js"></script><link href="getting-started_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="getting-started_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting Started">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting Started">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -49,32 +47,33 @@
 
 
   </div>
-</nav><div class="container template-quarto">
+</nav><div class="container template-article">
+
+
+
+
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Getting Started</h1>
-
-
-
-
-      <small class="dont-index">Source: <a href="https://github.com/whipson/schematic/blob/main/vignettes/getting-started.qmd" class="external-link"><code>vignettes/getting-started.qmd</code></a></small>
-      <div class="d-none name"><code></code></div>
+            
+      
+      <small class="dont-index">Source: <a href="https://github.com/whipson/schematic/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
+      <div class="d-none name"><code>getting-started.Rmd</code></div>
     </div>
 
-
-
-
-
-
-    <p>The purpose of schematic is to make data validation easy, expressive, and user-focused. A common pain point of data validation is communicating bad data to users. schematic helps by crafting informative error messages that convey <em>all</em> schema problems. As a developer, you can guide non-data users to fix problems with their data.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+    
+    
+<p>The purpose of schematic is to make data validation easy, expressive,
+and user-focused. A common pain point of data validation is
+communicating bad data to users. schematic helps by crafting informative
+error messages that convey <em>all</em> schema problems. As a developer,
+you can guide non-data users to fix problems with their data.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/whipson/schematic" class="external-link">schematic</a></span><span class="op">)</span></span></code></pre></div>
-</div>
-<p>Let’s start with some sample data of 5 people who answered 3 yes/no questions.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<p>Let’s start with some sample data of 5 people who answered 3 yes/no
+questions.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">survey_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="cn">NA</span>, <span class="fl">5</span><span class="op">)</span>,</span>
 <span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Emmett"</span>, <span class="st">"Billy"</span>, <span class="st">"Sally"</span>, <span class="st">"Woolley"</span>, <span class="st">"Duchess"</span><span class="op">)</span>,</span>
@@ -84,20 +83,28 @@
 <span>  q_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  q_3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-</div>
-<section class="level2"><h2 id="create-a-schema">Create a schema<a class="anchor" aria-label="anchor" href="#create-a-schema"></a>
+<div class="section level2">
+<h2 id="create-a-schema">Create a schema<a class="anchor" aria-label="anchor" href="#create-a-schema"></a>
 </h2>
-<p>A schema is a set of rules for columns in a data.frame. These rules are usually to do with the type of data and its contents. A rule consists of two parts:</p>
-<ol type="1">
+<p>A schema is a set of rules for columns in a data.frame. These rules
+are usually to do with the type of data and its contents. A rule
+consists of two parts:</p>
+<ol style="list-style-type: decimal">
 <li>
-<strong>Selector</strong> - the column(s) on which to apply to rule</li>
+<strong>Selector</strong> - the column(s) on which to apply to
+rule</li>
 <li>
-<strong>Predicate</strong> - a function that must return a single TRUE or FALSE indicating the pass or fail of the check</li>
+<strong>Predicate</strong> - a function that must return a single
+TRUE or FALSE indicating the pass or fail of the check</li>
 </ol>
-<p>We declare a schema using <code><a href="../reference/schema.html">schema()</a></code>. Note that we do not need to provide any data at this point, so the schema can be easily reused. Note that schematic has several predicate functions built in to address common validations.</p>
-<p>Each rule follows the format <code>selector ~ predicate</code>. Provide the column names using <code>tidyselect</code> syntax and then after the tilde can be any callable function.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<p>We declare a schema using <code><a href="../reference/schema.html">schema()</a></code>. Note that we do not
+need to provide any data at this point, so the schema can be easily
+reused. Note that schematic has several predicate functions built in to
+address common validations.</p>
+<p>Each rule follows the format <code>selector ~ predicate</code>.
+Provide the column names using <code>tidyselect</code> syntax and then
+after the tilde can be any callable function.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_schema</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schema.html">schema</a></span><span class="op">(</span></span>
 <span>  <span class="va">id</span> <span class="op">~</span> <span class="va">is_incrementing</span>,</span>
 <span>  <span class="va">id</span> <span class="op">~</span> <span class="va">is_all_distinct</span>,</span>
@@ -109,29 +116,37 @@
 <span>  <span class="va">final_score</span> <span class="op">~</span> <span class="va">is.numeric</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
-</section><section class="level2"><h2 id="check-data-against-schema">Check data against schema<a class="anchor" aria-label="anchor" href="#check-data-against-schema"></a>
+<div class="section level2">
+<h2 id="check-data-against-schema">Check data against schema<a class="anchor" aria-label="anchor" href="#check-data-against-schema"></a>
 </h2>
-<p>Once the schema has been created, you can apply it against the data. This applies all the schema checks and then reports any failures as an error message.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<p>Once the schema has been created, you can apply it against the data.
+This applies all the schema checks and then reports any failures as an
+error message.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_schema.html">check_schema</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">survey_data</span>,</span>
 <span>  schema <span class="op">=</span> <span class="va">my_schema</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in `check_schema()`:</span></span>
-<span><span class="co">#&gt; ! Schematic Error:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `check_schema()`:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Schematic Error:</span></span>
 <span><span class="co">#&gt; - Columns `education` and `final_score` missing from data</span></span>
 <span><span class="co">#&gt; - Column `id` failed check `is_incrementing`</span></span>
 <span><span class="co">#&gt; - Column `age` failed check `is_whole_number`</span></span>
 <span><span class="co">#&gt; - Column `sex` failed check `function(x) all(x %in% c("M", "F"))`</span></span></code></pre></div>
+<p>What distinguishes schematic from other data validation packages is
+its holistic error messaging, informing the user on all failures.</p>
 </div>
-<p>What distinguishes schematic from other data validation packages is its holistic error messaging, informing the user on all failures.</p>
-</section><section class="level2"><h2 id="customizing-the-message">Customizing the message<a class="anchor" aria-label="anchor" href="#customizing-the-message"></a>
+<div class="section level2">
+<h2 id="customizing-the-message">Customizing the message<a class="anchor" aria-label="anchor" href="#customizing-the-message"></a>
 </h2>
-<p>By default the error message is helpful for developers, but if you need to communicate the schema mismatch to a non-technical person they’ll have trouble understanding some or all of the errors. You can customize the output of each rule by inputting the rule as a named argument.</p>
-<p>Let’s fix up the previous example to make the messages more understandable.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<p>By default the error message is helpful for developers, but if you
+need to communicate the schema mismatch to a non-technical person
+they’ll have trouble understanding some or all of the errors. You can
+customize the output of each rule by inputting the rule as a named
+argument.</p>
+<p>Let’s fix up the previous example to make the messages more
+understandable.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_helpful_schema</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schema.html">schema</a></span><span class="op">(</span></span>
 <span>  <span class="st">"values are increasing"</span> <span class="op">=</span> <span class="va">id</span> <span class="op">~</span> <span class="va">is_incrementing</span>,</span>
 <span>  <span class="st">"values are all distinct"</span> <span class="op">=</span> <span class="va">id</span> <span class="op">~</span> <span class="va">is_all_distinct</span>,</span>
@@ -146,118 +161,19 @@
 <span>  data <span class="op">=</span> <span class="va">survey_data</span>,</span>
 <span>  schema <span class="op">=</span> <span class="va">my_helpful_schema</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in `check_schema()`:</span></span>
-<span><span class="co">#&gt; ! Schematic Error:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `check_schema()`:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Schematic Error:</span></span>
 <span><span class="co">#&gt; - Column `final_score` missing from data</span></span>
 <span><span class="co">#&gt; - Column `id` failed check `values are increasing`</span></span>
 <span><span class="co">#&gt; - Column `age` failed check `is a whole number (no decimals)`</span></span>
 <span><span class="co">#&gt; - Column `sex` failed check `has only entries 'F' or 'M'`</span></span></code></pre></div>
+<p>Now the message is easier for a non-technical person to understand
+and could be exposed to users in Shiny app or plumber endpoint.</p>
 </div>
-<p>Now the message is easier for a non-technical person to understand and could be exposed to users in Shiny app or plumber endpoint.</p>
-</section><script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'light-border',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config);
-  }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
-      });
-    }
-  }
-});
-</script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
+
 
 
     <footer><div class="pkgdown-footer-left">
