@@ -1,9 +1,12 @@
 Package: schematic
-Title: User Facing Schema Validation for Data Frames
+Title: Tidy Schema Validation for Data Frames
 Version: 0.0.0.9000
-Authors@R: person("Will", "Hipson", email = "will.e.hipson@gmail.com", role = c("aut", "cre"))
+Authors@R: person("Will", "Hipson", email = "will.e.hipson@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3931-2189"))
 Description: Validate data.frames against schemas using tidyselect and predicate functions with a focus on user-facing error messages.
+Maintainer: Will Hipson <will.e.hipson@gmail.com>
 License: MIT + file LICENSE
+URL: https://github.com/whipson/schematic, https://whipson.github.io/schematic/
+BugReports: https://github.com/whipson/schematic/issues
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 Imports:
@@ -15,4 +18,8 @@ Imports:
 Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-URL: https://whipson.github.io/schematic/
+Depends: 
+    R (>= 4.1.0)
+VignetteBuilder: 
+  knitr,
+  quarto

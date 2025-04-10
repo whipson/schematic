@@ -1,5 +1,12 @@
 
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/whipson/schematic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/whipson/schematic/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/whipson/schematic/graph/badge.svg)](https://app.codecov.io/gh/whipson/schematic)
+<!-- badges: end -->
+
 # schematic
 
 schematic is an R package that makes it easy to validate a data.frame

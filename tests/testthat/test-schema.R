@@ -5,6 +5,17 @@ test_that("can create a schema", {
   expect_s3_class(sch, "Schema")
 })
 
+cli::test_that_cli("schema prints", {
+
+  sch <- schema(
+    c(am, hp, cyl) ~ is.numeric
+  )
+
+  expect_snapshot(
+    sch
+  )
+})
+
 test_that("errors on invalid schema creation", {
   expect_error(
     schema(1),
