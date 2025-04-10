@@ -4,10 +4,12 @@
 \alias{print.Schema}
 \title{Print method for Schema}
 \usage{
-\method{print}{Schema}(x)
+\method{print}{Schema}(x, ...)
 }
 \arguments{
 \item{x}{Object of class Schema}
+
+\item{...}{Other arguments passed to `print()`}
 }
 \description{
 Print method for Schema

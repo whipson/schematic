@@ -4,12 +4,10 @@
 \alias{schema}
 \title{Create a schema object}
 \usage{
-schema(..., .names = NULL)
+schema(...)
 }
 \arguments{
 \item{...}{Formulae of the form tidyselect_expr ~ predicate}
-
-\item{.names}{Optional vector of names for each of the predicates to be used in the error message in place of the predicate function}
 }
 \value{
 A Schema object

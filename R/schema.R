@@ -33,8 +33,9 @@ schema <- function(...) {
 
 #' Print method for Schema
 #' @param x Object of class Schema
-#' @export
-print.Schema <- function(x) {
+#' @param ... Other arguments passed to `print()`
+#' @exportS3Method
+print.Schema <- function(x, ...) {
   cli::cli_h1("Schema")
   purrr::walk(x, ~ {
     selector <- rlang::as_label(rlang::f_lhs(.x))

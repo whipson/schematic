@@ -5,3 +5,8 @@
 ^.Rproj
 ^LICENSE\.md$
 ^README.qmd
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^codecov\.yml$
+^\.github$
