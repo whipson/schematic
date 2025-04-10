@@ -2,22 +2,24 @@
 
 # schematic
 
-`schematic` helps you check a data.frame against a schema (i.e.,
-data-type matching, nullability, etc.). The advantages of `schematic`
-include:
+schematic is an R package that makes it easy to validate a data.frame
+against a schema—checking column types, nullability, and more. It’s
+designed with user-facing applications in mind, providing clear and
+expressive error messages that help users understand and fix their data
+issues.
 
-1.  use of `tidyselect` syntax for declaring schema
+Key features of schematic include:
 
-2.  user-facing messages that can be displayed in applications
+✅ Declarative schema definitions using tidyselect syntax
 
-3.  error messages display all schema failures, not just the first
-    detected
+💬 User-friendly error messages designed for use in Shiny apps and APIs
 
-Use `schematic` if you like expressive and flexible schema checking and
-when the priority is on user presentation instead of speed. `schematic`
-may be particularly useful in scenarios where users need informative
-error messaging when working with or inputting a data.frame (e.g., Shiny
-app or Plumber endpoint that uses a .csv as input).
+📋 Comprehensive reporting of all schema violations, not just the first
+
+Use schematic when you want flexible and expressive schema validation,
+especially in contexts where informative feedback matters—like a Shiny
+app, a plumber endpoint, or any tool that consumes user-submitted data
+(e.g., .csv uploads).
 
 ``` r
 remotes::install_github("https://github.com/whipson/schematic")
