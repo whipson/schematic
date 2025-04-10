@@ -1,0 +1,7 @@
+^renv$
+^renv\.lock$
+^schematic\.Rproj$
+^\.Rproj\.user$
+^.Rproj
+^LICENSE\.md$
+^README.qmd

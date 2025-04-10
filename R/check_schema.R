@@ -61,16 +61,14 @@ check_schema <- function(data, schema) {
   out_c <- c()
 
   if (!is.null(missing_cols_vec)) {
-    purrr::walk(missing_cols_vec, ~{
-      cols_ticked <- paste0("`", .x, "`")
-      msg <- glue::glue(cli::pluralize("Column{?s} {cols_ticked} missing from data"))
-      out_c <<- c(out_c, msg)
-    })
+    cols_ticked <- paste0("`", missing_cols_vec, "`")
+    msg <- glue::glue(cli::pluralize("Column{?s} {cols_ticked} missing from data"))
+    out_c <- c(out_c, msg)
   }
 
   purrr::walk2(results[fail_idx], pred_names, ~{
     cols <- .x$col
-    pred <- if (is.na(.y)) .x$predicate else .y
+    pred <- if (is.na(.y)) .x$predicate[[1]] else .y
 
     cols_ticked <- paste0("`", cols, "`")
     plural_prefix <- cli::pluralize("Column{?s} {cols_ticked}")

@@ -3,9 +3,21 @@
 # schematic
 
 `schematic` helps you check a data.frame against a schema (i.e.,
-data-type matching, nullability, etc.). The advantage of `schematic` is
-its use of `tidyselect` syntax for declaring a schema and user-facing
-messages that can be displayed in applications.
+data-type matching, nullability, etc.). The advantages of `schematic`
+include:
+
+1.  use of `tidyselect` syntax for declaring schema
+
+2.  user-facing messages that can be displayed in applications
+
+3.  error messages display all schema failures, not just the first
+    detected
+
+Use `schematic` if you like expressive and flexible schema checking and
+when the priority is on user presentation instead of speed. `schematic`
+may be particularly useful in scenarios where users need informative
+error messaging when working with or inputting a data.frame (e.g., Shiny
+app or Plumber endpoint that uses a .csv as input).
 
 ``` r
 remotes::install_github("https://github.com/whipson/schematic")
@@ -19,11 +31,12 @@ on the right (RHS) are predicate functions that return TRUE or FALSE.
 library(schematic)
 
 my_schema <- schema(
-  hello = ints ~ is.integer,
+  ints ~ is.integer,
   pos_int ~ is_positive_integer,
   starts_with("num") ~ is.numeric,
   c(fct1, another_fct) ~ is.factor,
-  times ~ function(x) inherits(x, "POSIXct")
+  times ~ function(x) inherits(x, "POSIXct"),
+  c(some_import_col) ~ is.numeric
 )
 ```
 
@@ -50,7 +63,7 @@ check_schema(
 
     Error in `check_schema()`:
     ! Schematic Error:
-    - Columns `fct1` and `another_fct` failed check `is.factor`
+    - Column `some_import_col` missing from data
     - Columns `fct1` and `another_fct` failed check `is.factor`
     - Column `times` failed check `function(x) inherits(x, "POSIXct")`
 
@@ -59,11 +72,11 @@ of the message.
 
 ``` r
 my_schema <- schema(
-  `is a positive whole number` = pos_int ~ is_positive_integer
+  `is a whole number` = my_int ~ is.integer
 )
 
 my_df <- data.frame(
-  pos_int = c(-1, 2, 0.4)
+  my_int = c(-1, 2, 0.4)
 )
 
 check_schema(my_df, my_schema)
@@ -71,4 +84,4 @@ check_schema(my_df, my_schema)
 
     Error in `check_schema()`:
     ! Schematic Error:
-    - Column `pos_int` failed check `is a positive whole number`
+    - Column `my_int` failed check `is a whole number`
