@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>User Facing Schema Validation for Data Frames • schematic</title>
+<title>Tidy Schema Validation for Data Frames • schematic</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="User Facing Schema Validation for Data Frames">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Tidy Schema Validation for Data Frames">
 <meta name="description" content="Validate data.frames against schemas using tidyselect and predicate functions with a focus on user-facing error messages.">
 <meta property="og:description" content="Validate data.frames against schemas using tidyselect and predicate functions with a focus on user-facing error messages.">
 </head>
@@ -37,6 +37,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/whipson/schematic/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -44,7 +45,8 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
+  <main id="main" class="col-md-9">
+<div class="section level1">
 <div class="page-header"><h1 id="schematic">schematic<a class="anchor" aria-label="anchor" href="#schematic"></a>
 </h1></div>
 <p>schematic is an R package that makes it easy to validate a data.frame against a schema—checking column types, nullability, and more. It’s designed with user-facing applications in mind, providing clear and expressive error messages that help users understand and fix their data issues.</p>
@@ -57,7 +59,7 @@
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"https://github.com/whipson/schematic"</span><span class="op">)</span></span></code></pre></div>
 <p>Use <code><a href="reference/schema.html">schema()</a></code> to create a Schema. Names and tidyselect expressions on the left of the tilde (LHS) correspond to column names and expressions on the right (RHS) are predicate functions that return TRUE or FALSE.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://whipson.github.io/schematic/">schematic</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/whipson/schematic" class="external-link">schematic</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">my_schema</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/schema.html">schema</a></span><span class="op">(</span></span>
 <span>  <span class="va">ints</span> <span class="op">~</span> <span class="va">is.integer</span>,</span>
@@ -104,7 +106,16 @@
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="sc">!</span> Schematic Error<span class="sc">:</span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="sc">-</span> Column <span class="st">`</span><span class="at">my_int</span><span class="st">`</span> failed check <span class="st">`</span><span class="at">is a whole number</span><span class="st">`</span></span></code></pre></div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/whipson/schematic/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/whipson/schematic/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
@@ -123,11 +134,17 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Will Hipson <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Will Hipson <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3931-2189" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/whipson/schematic/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/whipson/schematic/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/whipson/schematic" class="external-link"><img src="https://codecov.io/gh/whipson/schematic/graph/badge.svg" alt="Codecov test coverage"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
