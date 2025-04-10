@@ -32,6 +32,12 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/getting-started.html">Getting Started</a></li>
+  </ul>
+</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -49,11 +55,12 @@
 <div class="section level1">
 <div class="page-header"><h1 id="schematic">schematic<a class="anchor" aria-label="anchor" href="#schematic"></a>
 </h1></div>
-<p>schematic is an R package that makes it easy to validate a data.frame against a schema—checking column types, nullability, and more. It’s designed with user-facing applications in mind, providing clear and expressive error messages that help users understand and fix their data issues.</p>
+<p>schematic is an R package that makes it easy to validate a data.frame against a schema. It’s designed to provide clear and expressive error messages that help users understand and fix their data issues.</p>
 <p>Key features of schematic include:</p>
 <p>✅ Declarative schema definitions using tidyselect syntax</p>
 <p>💬 User-friendly error messages designed for use in Shiny apps and APIs</p>
 <p>📋 Comprehensive reporting of all schema violations, not just the first</p>
+<p>🪶 Lightweight and dependency-conscious—minimal overhead, easy to integrate</p>
 <p>Use schematic when you want flexible and expressive schema validation, especially in contexts where informative feedback matters—like a Shiny app, a plumber endpoint, or any tool that consumes user-submitted data (e.g., .csv uploads).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"https://github.com/whipson/schematic"</span><span class="op">)</span></span></code></pre></div>
@@ -61,20 +68,9 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/whipson/schematic" class="external-link">schematic</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">my_schema</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/schema.html">schema</a></span><span class="op">(</span></span>
-<span>  <span class="va">ints</span> <span class="op">~</span> <span class="va">is.integer</span>,</span>
-<span>  <span class="va">pos_int</span> <span class="op">~</span> <span class="va">is_positive_integer</span>,</span>
-<span>  <span class="fu">starts_with</span><span class="op">(</span><span class="st">"num"</span><span class="op">)</span> <span class="op">~</span> <span class="va">is.numeric</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">fct1</span>, <span class="va">another_fct</span><span class="op">)</span> <span class="op">~</span> <span class="va">is.factor</span>,</span>
-<span>  <span class="va">times</span> <span class="op">~</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">inherits</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"POSIXct"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">some_import_col</span><span class="op">)</span> <span class="op">~</span> <span class="va">is.numeric</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="reference/check_schema.html">check_schema()</a></code> returns an informative error including the names of the columns that failed the schema and the reason that they failed.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Test data.frame with some errors sprinkled in</span></span>
+<span><span class="co"># Test data.frame with some errors sprinkled in</span></span>
 <span><span class="va">my_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  ints <span class="op">=</span> <span class="fl">1L</span><span class="op">:</span><span class="fl">5L</span>,</span>
-<span>  pos_int <span class="op">=</span> <span class="fl">1L</span><span class="op">:</span><span class="fl">5L</span>,</span>
 <span>  num1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,</span>
 <span>  num2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span>,</span>
 <span>  fct1 <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span>
@@ -82,7 +78,16 @@
 <span>  times <span class="op">=</span> <span class="st">"2025-04-09"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/check_schema.html">check_schema</a></span><span class="op">(</span></span>
+<span><span class="va">my_schema</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/schema.html">schema</a></span><span class="op">(</span></span>
+<span>  <span class="va">ints</span> <span class="op">~</span> <span class="va">is.integer</span>,</span>
+<span>  <span class="fu">starts_with</span><span class="op">(</span><span class="st">"num"</span><span class="op">)</span> <span class="op">~</span> <span class="va">is.numeric</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">fct1</span>, <span class="va">another_fct</span><span class="op">)</span> <span class="op">~</span> <span class="va">is.factor</span>,</span>
+<span>  <span class="va">times</span> <span class="op">~</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">inherits</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"POSIXct"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">some_import_col</span><span class="op">)</span> <span class="op">~</span> <span class="va">is.numeric</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="reference/check_schema.html">check_schema()</a></code> returns an informative error including the names of the columns that failed the schema and the reason that they failed.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/check_schema.html">check_schema</a></span><span class="op">(</span></span>
 <span>  <span class="va">my_df</span>,</span>
 <span>  <span class="va">my_schema</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -91,7 +96,7 @@
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="sc">-</span> Column <span class="st">`</span><span class="at">some_import_col</span><span class="st">`</span> missing from data</span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="sc">-</span> Columns <span class="st">`</span><span class="at">fct1</span><span class="st">`</span> and <span class="st">`</span><span class="at">another_fct</span><span class="st">`</span> failed check <span class="st">`</span><span class="at">is.factor</span><span class="st">`</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="sc">-</span> Column <span class="st">`</span><span class="at">times</span><span class="st">`</span> failed check <span class="st">`</span><span class="at">function(x) inherits(x, "POSIXct")</span><span class="st">`</span></span></code></pre></div>
-<p>You can also supply argument names in <code><a href="reference/schema.html">schema()</a></code> to customize the output of the message.</p>
+<p>You can also supply argument names in <code><a href="reference/schema.html">schema()</a></code> to customize the output of the message. This is particularly helpful when you want to present a user with an informative message such as in a Shiny app.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_schema</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/schema.html">schema</a></span><span class="op">(</span></span>
 <span>  `is a whole number` <span class="op">=</span> <span class="va">my_int</span> <span class="op">~</span> <span class="va">is.integer</span></span>

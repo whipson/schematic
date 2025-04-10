@@ -16,6 +16,10 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/whipson/schematic/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -54,6 +58,32 @@
     <p>A Schema object</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Simple schema with one declared column</span></span></span>
+<span class="r-in"><span><span class="va">my_schema</span> <span class="op">&lt;-</span> <span class="fu">schema</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">mpg</span> <span class="op">~</span> <span class="va">is.double</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Multiple columns</span></span></span>
+<span class="r-in"><span><span class="va">my_schema</span> <span class="op">&lt;-</span> <span class="fu">schema</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">Sepal.Length</span> <span class="op">~</span> <span class="va">is.numeric</span>,</span></span>
+<span class="r-in"><span>  <span class="va">Species</span> <span class="op">~</span> <span class="va">is.factor</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use tidyselect syntax and anonymous functions</span></span></span>
+<span class="r-in"><span><span class="va">my_schema</span> <span class="op">&lt;-</span> <span class="fu">schema</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu">starts_with</span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span> <span class="op">~</span> <span class="va">is.numeric</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Petal.Length</span>, <span class="va">Petal.Width</span><span class="op">)</span> <span class="op">~</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use named arguments to customize error messages</span></span></span>
+<span class="r-in"><span><span class="va">my_schema</span> <span class="op">&lt;-</span> <span class="fu">schema</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  `Must be a positive number` <span class="op">=</span> <span class="va">cyl</span> <span class="op">~</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

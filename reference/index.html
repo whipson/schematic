@@ -16,6 +16,10 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/whipson/schematic/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -31,7 +35,7 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="schemas">Schemas<a class="anchor" aria-label="anchor" href="#schemas"></a></h2>
 
 
 
@@ -49,10 +53,51 @@
         <dd>Validate a data.frame against a schema</dd>
       </dl><dl><dt>
 
+          <code><a href="schema.html">schema()</a></code>
+
+        </dt>
+        <dd>Create a schema object</dd>
+      </dl><dl><dt>
+
+          <code><a href="print.Schema.html">print(<i>&lt;Schema&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Print method for Schema</dd>
+      </dl></div><div class="section level2">
+      <h2 id="predicates">Predicates<a class="anchor" aria-label="anchor" href="#predicates"></a></h2>
+
+      <div class="section-desc"><p>Functions that must return a single TRUE or FALSE indicating the pass or fail of the check</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="is_all_distinct.html">is_all_distinct()</a></code>
+
+        </dt>
+        <dd>Check if all values in a vector are distinct</dd>
+      </dl><dl><dt>
+
+          <code><a href="is_incrementing.html">is_incrementing()</a></code>
+
+        </dt>
+        <dd>Check if the vector is sorted numerically or alphanumerically</dd>
+      </dl><dl><dt>
+
+          <code><a href="is_non_null.html">is_non_null()</a></code>
+
+        </dt>
+        <dd>Check if all values are not NA</dd>
+      </dl><dl><dt>
+
           <code><a href="is_positive_integer.html">is_positive_integer()</a></code>
 
         </dt>
-        <dd>Check if a vector is a positive integer</dd>
+        <dd>Check if a vector has all positive integers</dd>
       </dl><dl><dt>
 
           <code><a href="is_text.html">is_text()</a></code>
@@ -61,24 +106,36 @@
         <dd>Check if a vector is text-based (character or factor)</dd>
       </dl><dl><dt>
 
-          <code><a href="nullable.html">nullable()</a></code>
+          <code><a href="is_whole_number.html">is_whole_number()</a></code>
+
+        </dt>
+        <dd>Check if a vector has all whole numbers</dd>
+      </dl></div><div class="section level2">
+      <h2 id="modifiers">Modifiers<a class="anchor" aria-label="anchor" href="#modifiers"></a></h2>
+
+      <div class="section-desc"><p>Functions that modify predicates to make new predicates</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="mod_infinitable.html">mod_infinitable()</a></code>
+
+        </dt>
+        <dd>Ignore infinite values in a predicate</dd>
+      </dl><dl><dt>
+
+          <code><a href="mod_nullable.html">mod_nullable()</a></code>
 
         </dt>
         <dd>Allow NA in a predicate</dd>
-      </dl><dl><dt>
-
-          <code><a href="print.Schema.html">print(<i>&lt;Schema&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Print method for Schema</dd>
-      </dl><dl><dt>
-
-          <code><a href="schema.html">schema()</a></code>
-
-        </dt>
-        <dd>Create a schema object</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
