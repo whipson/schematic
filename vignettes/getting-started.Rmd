@@ -1,8 +1,9 @@
 ---
 title: "Getting Started"
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Getting Started}
-  %\VignetteEngine{quarto::html}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -61,8 +62,7 @@ my_schema <- schema(
 
 Once the schema has been created, you can apply it against the data. This applies all the schema checks and then reports any failures as an error message.
 
-```{r}
-#| error: true
+```{r, error=TRUE}
 check_schema(
   data = survey_data,
   schema = my_schema
@@ -77,8 +77,7 @@ By default the error message is helpful for developers, but if you need to commu
 
 Let's fix up the previous example to make the messages more understandable.
 
-```{r}
-#| error: true
+```{r, error=TRUE}
 my_helpful_schema <- schema(
   "values are increasing" = id ~ is_incrementing,
   "values are all distinct" = id ~ is_all_distinct,
