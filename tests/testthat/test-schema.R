@@ -21,4 +21,11 @@ test_that("errors on invalid schema creation", {
     schema(1),
     regexp = "Each argument"
   )
+
+  expect_error(
+    schema(
+      cyl
+    ),
+    regexp = "Each argument"
+  )
 })

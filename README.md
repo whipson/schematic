@@ -9,9 +9,9 @@ coverage](https://codecov.io/gh/whipson/schematic/graph/badge.svg)](https://app.
 
 # schematic
 
-schematic is an R package that makes it easy to validate a data.frame
-against a schema. It’s designed to provide clear and expressive error
-messages that help users understand and fix their data issues.
+schematic makes it easy to validate a data.frame against a schema. It’s
+designed to provide clear and expressive error messages that help users
+understand and fix data issues.
 
 Key features of schematic include:
 
@@ -70,7 +70,7 @@ check_schema(
 ```
 
     Error in `check_schema()`:
-    ! Schematic Error:
+    ! Schema Error:
     - Column `some_import_col` missing from data
     - Columns `fct1` and `another_fct` failed check `is.factor`
     - Column `times` failed check `function(x) inherits(x, "POSIXct")`
@@ -92,5 +92,5 @@ check_schema(my_df, my_schema)
 ```
 
     Error in `check_schema()`:
-    ! Schematic Error:
+    ! Schema Error:
     - Column `my_int` failed check `is a whole number`

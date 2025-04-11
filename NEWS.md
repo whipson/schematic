@@ -1,3 +1,5 @@
-# schematic (development version)
+# schematic 0.0.0.9000
 
-* Initial CRAN submission.
+### Major changes
+
+- Initial version of package schematic.

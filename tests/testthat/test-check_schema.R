@@ -11,7 +11,7 @@ test_that("check_schema fails for invalid columns", {
   sch <- schema(
     c(cyl, am) ~ is.character
   )
-  expect_error(check_schema(df, sch), "Schematic Error")
+  expect_error(check_schema(df, sch), "Schema Error")
 })
 
 test_that("check_schema works on multiple entry schema", {
@@ -79,4 +79,19 @@ test_that("check_schema works on non-definite selector", {
     starts_with("blahblah") ~ as.character
   )
   expect_invisible(check_schema(df, sch))
+})
+
+test_that("rules with an error are handled", {
+  sch <- schema(
+    cyl ~ stop()
+  )
+
+  expect_error(
+    check_schema(
+      mtcars,
+      sch
+    ),
+    regexp = "Error in predicate"
+  )
+
 })

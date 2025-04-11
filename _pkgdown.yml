@@ -1,6 +1,8 @@
 url: https://whipson.github.io/schematic/
 template:
   bootstrap: 5
+  bslib:
+    primary: "#5B9BD5"
 
 reference:
 - title: Schemas

@@ -30,7 +30,23 @@
 schema <- function(...) {
 
   dots <- rlang::enquos(...)
-  rules <- purrr::map(dots, rlang::eval_tidy)
+
+  withCallingHandlers(
+    rules <- tryCatch({
+      purrr::map(dots, rlang::eval_tidy)
+    }, error = function(e) {
+      cli::cli_abort(
+        c("Each argument to `schema()` must be a formula (see examples below).",
+          "i" = "`col ~ is.numeric`",
+          "i" = "`c(col1, col2) ~ is.character`"
+        ),
+        call = rlang::caller_env(n = 4)
+      )
+    }),
+    purrr_error_indexed = function(err) {
+      rlang::cnd_signal(err$parent)
+    }
+  )
 
   # validate each element is a formula: lhs ~ rhs
   withCallingHandlers(
@@ -41,7 +57,8 @@ schema <- function(...) {
             "i" = "`col ~ is.numeric`",
             "i" = "`c(col1, col2) ~ is.character`"
           ),
-          call = rlang::caller_env(n = 3))
+          call = rlang::caller_env(n = 3)
+        )
       }
       x
     }),

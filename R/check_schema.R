@@ -26,51 +26,66 @@ check_schema <- function(data, schema) {
     pred = character()
   )
 
-  results <- purrr::map(schema, ~{
-    selector <- rlang::f_lhs(.x)
-    predicate_fm <- rlang::f_rhs(.x)
-    predicate <- predicate_fm |>
-      rlang::eval_tidy() |>
-      rlang::as_function()
+  withCallingHandlers(
+    results <- purrr::map(schema, ~{
 
-    cols <- tryCatch({
-      tidyselect::eval_select(selector, data) |>
-        names()
-    }, error = function(e) {
-      still_exists <- tidyselect::eval_select(selector, data, strict = FALSE) |>
-        names()
-      check_cols <- clean_c_wrapper(
-        rlang::as_label(selector)
-      ) |>
-        strsplit(",\\s*")
-      check_cols <- check_cols[[1]]
-      missing_cols_vec <<- c(missing_cols_vec, setdiff(check_cols, still_exists))
-      still_exists
-    })
+      selector <- rlang::f_lhs(.x)
+      predicate_fm <- rlang::f_rhs(.x)
 
-    purrr::map(cols, ~{
-      actual_class <- class(data[[.x]])
-      result <- tryCatch({
-        check_pass <- predicate(data[[.x]])
-        if (!is.logical(check_pass)) {
-          invalid_preds_list$col <<- c(invalid_preds_list$col, .x)
-          invalid_preds_list$pred <<- c(invalid_preds_list$pred, rlang::as_label(predicate_fm))
-          FALSE
-        }
-        stopifnot(check_pass)
-        TRUE
+      tryCatch({
+        predicate <- predicate_fm |>
+          rlang::eval_tidy() |>
+          rlang::as_function()
       }, error = function(e) {
-        FALSE
+        cli::cli_abort(
+          glue::glue("Error in predicate `{rlang::as_label(predicate_fm)}`"),
+          call = rlang::caller_env(n = 7)
+        )
       })
-      if (isTRUE(result)) return(NULL)
-      data.frame(
-        col = .x,
-        class = actual_class,
-        predicate = rlang::as_label(predicate_fm)
-      )
-    }) |>
-      purrr::list_rbind()
-  })
+
+      cols <- tryCatch({
+        tidyselect::eval_select(selector, data) |>
+          names()
+      }, error = function(e) {
+        still_exists <- tidyselect::eval_select(selector, data, strict = FALSE) |>
+          names()
+        check_cols <- clean_c_wrapper(
+          rlang::as_label(selector)
+        ) |>
+          strsplit(",\\s*")
+        check_cols <- check_cols[[1]]
+        missing_cols_vec <<- c(missing_cols_vec, setdiff(check_cols, still_exists))
+        still_exists
+      })
+
+      purrr::map(cols, ~{
+        actual_class <- class(data[[.x]])
+        result <- tryCatch({
+          check_pass <- predicate(data[[.x]])
+          if (!is.logical(check_pass)) {
+            invalid_preds_list$col <<- c(invalid_preds_list$col, .x)
+            invalid_preds_list$pred <<- c(invalid_preds_list$pred, rlang::as_label(predicate_fm))
+            FALSE
+          }
+          stopifnot(check_pass)
+          TRUE
+        }, error = function(e) {
+          FALSE
+        })
+        if (isTRUE(result)) return(NULL)
+        data.frame(
+          col = .x,
+          class = actual_class,
+          predicate = rlang::as_label(predicate_fm)
+        )
+      }) |>
+        purrr::list_rbind()
+    }),
+
+    purrr_error_indexed = function(err) {
+      rlang::cnd_signal(err$parent)
+    }
+  )
 
   fail_idx <- which(purrr::map_lgl(results, ~nrow(.x) > 0))
   pred_names <- pred_names[fail_idx]
@@ -104,7 +119,7 @@ check_schema <- function(data, schema) {
     out_c <<- c(out_c, msg)
   })
 
-  cli::cli_abort(c("Schematic Error:\n", paste("-", out_c)))
+  cli::cli_abort(c("Schema Error:\n", paste("-", out_c)))
 
   invisible()
 }
