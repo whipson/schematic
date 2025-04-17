@@ -27,10 +27,23 @@ Key features of schematic include:
 
 Use schematic when you want flexible and expressive schema validation, especially in contexts where informative feedback matters—like a Shiny app, a plumber endpoint, or any tool that consumes user-submitted data (e.g., .csv uploads).
 
+### Installation
+
+schematic can be installed from CRAN:
+
+```{r}
+#| eval: false
+install.packages("schematic")
+```
+
+Or try out the development version:
+
 ```{r}
 #| eval: false
 remotes::install_github("https://github.com/whipson/schematic")
 ```
+
+## Basics
 
 Use `schema()` to create a Schema. Names and tidyselect expressions on the left of the tilde (LHS) correspond to column names and expressions on the right (RHS) are predicate functions that return TRUE or FALSE.
 
