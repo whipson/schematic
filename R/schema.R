@@ -75,6 +75,7 @@ schema <- function(...) {
 #' @param x Object of class Schema
 #' @param ... Other arguments passed to `print()`
 #' @exportS3Method
+#' @return invisible
 print.Schema <- function(x, ...) {
   cli::cli_h1("Schema")
   purrr::walk(x, ~ {

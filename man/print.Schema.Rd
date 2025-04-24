@@ -11,6 +11,9 @@
 
 \item{...}{Other arguments passed to `print()`}
 }
+\value{
+invisible
+}
 \description{
 Print method for Schema
 }
