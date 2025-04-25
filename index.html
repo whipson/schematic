@@ -63,10 +63,21 @@
 <p>📋 Comprehensive reporting of all schema violations, not just the first</p>
 <p>🪶 Lightweight and dependency-conscious—minimal overhead, easy to integrate</p>
 <p>Use schematic when you want flexible and expressive schema validation, especially in contexts where informative feedback matters—like a Shiny app, a plumber endpoint, or any tool that consumes user-submitted data (e.g., .csv uploads).</p>
+<div class="section level3">
+<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
+<p>schematic can be installed from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"https://github.com/whipson/schematic"</span><span class="op">)</span></span></code></pre></div>
-<p>Use <code><a href="reference/schema.html">schema()</a></code> to create a Schema. Names and tidyselect expressions on the left of the tilde (LHS) correspond to column names and expressions on the right (RHS) are predicate functions that return TRUE or FALSE.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"schematic"</span><span class="op">)</span></span></code></pre></div>
+<p>Or try out the development version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"https://github.com/whipson/schematic"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="basics">Basics<a class="anchor" aria-label="anchor" href="#basics"></a>
+</h2>
+<p>Use <code><a href="reference/schema.html">schema()</a></code> to create a Schema. Names and tidyselect expressions on the left of the tilde (LHS) correspond to column names and expressions on the right (RHS) are predicate functions that return TRUE or FALSE.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/whipson/schematic" class="external-link">schematic</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Test data.frame with some errors sprinkled in</span></span>
@@ -87,18 +98,18 @@
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">some_import_col</span><span class="op">)</span> <span class="op">~</span> <span class="va">is.numeric</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><code><a href="reference/check_schema.html">check_schema()</a></code> returns an informative error including the names of the columns that failed the schema and the reason that they failed.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/check_schema.html">check_schema</a></span><span class="op">(</span></span>
 <span>  <span class="va">my_df</span>,</span>
 <span>  <span class="va">my_schema</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">check_schema()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="sc">!</span> Schema Error<span class="sc">:</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="sc">-</span> Column <span class="st">`</span><span class="at">some_import_col</span><span class="st">`</span> missing from data</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="sc">-</span> Columns <span class="st">`</span><span class="at">fct1</span><span class="st">`</span> and <span class="st">`</span><span class="at">another_fct</span><span class="st">`</span> failed check <span class="st">`</span><span class="at">is.factor</span><span class="st">`</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="sc">-</span> Column <span class="st">`</span><span class="at">times</span><span class="st">`</span> failed check <span class="st">`</span><span class="at">function(x) inherits(x, "POSIXct")</span><span class="st">`</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">check_schema()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="sc">!</span> Schema Error<span class="sc">:</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="sc">-</span> Column <span class="st">`</span><span class="at">some_import_col</span><span class="st">`</span> missing from data</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="sc">-</span> Columns <span class="st">`</span><span class="at">fct1</span><span class="st">`</span> and <span class="st">`</span><span class="at">another_fct</span><span class="st">`</span> failed check <span class="st">`</span><span class="at">is.factor</span><span class="st">`</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="sc">-</span> Column <span class="st">`</span><span class="at">times</span><span class="st">`</span> failed check <span class="st">`</span><span class="at">function(x) inherits(x, "POSIXct")</span><span class="st">`</span></span></code></pre></div>
 <p>You can also supply argument names in <code><a href="reference/schema.html">schema()</a></code> to customize the output of the message. This is particularly helpful when you want to present a user with an informative message such as in a Shiny app.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_schema</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/schema.html">schema</a></span><span class="op">(</span></span>
 <span>  `is a whole number` <span class="op">=</span> <span class="va">my_int</span> <span class="op">~</span> <span class="va">is.integer</span></span>
 <span><span class="op">)</span></span>
@@ -108,14 +119,16 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/check_schema.html">check_schema</a></span><span class="op">(</span><span class="va">my_df</span>, <span class="va">my_schema</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">check_schema()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="sc">!</span> Schema Error<span class="sc">:</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="sc">-</span> Column <span class="st">`</span><span class="at">my_int</span><span class="st">`</span> failed check <span class="st">`</span><span class="at">is a whole number</span><span class="st">`</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">check_schema()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="sc">!</span> Schema Error<span class="sc">:</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="sc">-</span> Column <span class="st">`</span><span class="at">my_int</span><span class="st">`</span> failed check <span class="st">`</span><span class="at">is a whole number</span><span class="st">`</span></span></code></pre></div>
+</div>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=schematic" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/whipson/schematic/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/whipson/schematic/issues" class="external-link">Report a bug</a></li>
 </ul>
@@ -149,6 +162,9 @@
 <ul class="list-unstyled">
 <li><a href="https://github.com/whipson/schematic/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/whipson/schematic/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/whipson/schematic" class="external-link"><img src="https://codecov.io/gh/whipson/schematic/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://cran.r-project.org/package=schematic" class="external-link"><img src="https://www.r-pkg.org/badges/version/schematic" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://CRAN.R-project.org/package=schematic" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/schematic" alt="Total Downloads"></a></li>
+<li><a href="https://cran.r-project.org/package=schematic" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/schematic" alt="Monthly Downloads"></a></li>
 </ul>
 </div>
 
