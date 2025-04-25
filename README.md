@@ -5,6 +5,11 @@
 [![R-CMD-check](https://github.com/whipson/schematic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/whipson/schematic/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/whipson/schematic/graph/badge.svg)](https://app.codecov.io/gh/whipson/schematic)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/schematic)](https://cran.r-project.org/package=schematic)
+[![Total
+Downloads](https://cranlogs.r-pkg.org/badges/grand-total/schematic)](https://CRAN.R-project.org/package=schematic)
+[![Monthly
+Downloads](https://cranlogs.r-pkg.org/badges/schematic)](https://cran.r-project.org/package=schematic)
 <!-- badges: end -->
 
 # schematic
@@ -29,9 +34,21 @@ especially in contexts where informative feedback matters—like a Shiny
 app, a plumber endpoint, or any tool that consumes user-submitted data
 (e.g., .csv uploads).
 
+### Installation
+
+schematic can be installed from CRAN:
+
+``` r
+install.packages("schematic")
+```
+
+Or try out the development version:
+
 ``` r
 remotes::install_github("https://github.com/whipson/schematic")
 ```
+
+## Basics
 
 Use `schema()` to create a Schema. Names and tidyselect expressions on
 the left of the tilde (LHS) correspond to column names and expressions
