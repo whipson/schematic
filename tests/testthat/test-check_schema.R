@@ -93,5 +93,34 @@ test_that("rules with an error are handled", {
     ),
     regexp = "Error in predicate"
   )
+})
 
+test_that("lots of columns in message are still reported", {
+  sch <- schema(
+    c(departure_gate,
+      arrival_gate,
+      flight_date,
+      flight_id,
+      svc_type,
+      route,
+      ac_type,
+      status
+    ) ~ is.character
+  )
+
+  expect_error(
+    check_schema(data.frame(), sch),
+    regexp = "Columns `departure_gate`"
+  )
+})
+
+test_that("lots of columns in message are still reported", {
+  sch <- schema(
+    e ~ is.character
+  )
+
+  expect_error(
+    check_schema(data.frame(a = 1), sch),
+    regexp = "Column `e`"
+  )
 })

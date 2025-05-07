@@ -46,11 +46,11 @@ check_schema <- function(data, schema) {
       cols <- tryCatch({
         tidyselect::eval_select(selector, data) |>
           names()
-      }, error = function(e) {
+      }, error = function(`___e`) { # avoid conflicts with columns named 'e'
         still_exists <- tidyselect::eval_select(selector, data, strict = FALSE) |>
           names()
         check_cols <- clean_c_wrapper(
-          rlang::as_label(selector)
+          paste(deparse(selector), collapse = "")
         ) |>
           strsplit(",\\s*")
         check_cols <- check_cols[[1]]

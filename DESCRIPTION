@@ -1,6 +1,6 @@
 Package: schematic
 Title: Tidy Schema Validation for Data Frames
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Will", "Hipson", email = "will.e.hipson@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-3931-2189"))
 Description: Validate data.frames against schemas to ensure that data matches expectations. Define schemas using 'tidyselect' and predicate functions for type consistency, nullability, and more. Schema failure messages can be tailored for non-technical users and are ideal for user-facing applications such as in 'shiny' or 'plumber'.  
 Maintainer: Will Hipson <will.e.hipson@gmail.com>
