@@ -13,6 +13,7 @@
 #' is_incrementing_null <- mod_nullable(is_incrementing)
 #' is_incrementing_null(x) # TRUE
 mod_nullable <- function(pred) {
+  pred <- rlang::as_function(pred)
   function(x) {
     if (all(is.na(x))) return(TRUE)
     pred(x[!is.na(x)])
@@ -34,6 +35,7 @@ mod_nullable <- function(pred) {
 #' is_incrementing_inf <- mod_infinitable(is_incrementing)
 #' is_incrementing_inf(x) # TRUE
 mod_infinitable <- function(pred) {
+  pred <- rlang::as_function(pred)
   function(x) {
     if (all(is.na(x))) return(TRUE)
     pred(x[!is.infinite(x)])

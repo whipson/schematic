@@ -6,6 +6,8 @@
 
 - Fixed issue where checking on a column named `e` triggered error in `check_schema()`.
 
+- Fixed issue where modifiers wouldn't work with custom predicates.
+
 # schematic 0.1.0
 
 ### CRAN release
