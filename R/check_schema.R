@@ -21,16 +21,29 @@ check_schema <- function(data, schema) {
   pred_names <- ifelse(trimws(pred_names) == "", NA, pred_names)
 
   missing_cols_vec <- c()
-  invalid_preds_list <- list(
-    col = character(),
-    pred = character()
-  )
+  invalid_preds_list <- list()
+  errored_preds_list <- list()
+  check_errors <- list()
 
   withCallingHandlers(
     results <- purrr::map(schema, ~{
 
       selector <- rlang::f_lhs(.x)
       predicate_fm <- rlang::f_rhs(.x)
+      predicate_label <- rlang::as_label(predicate_fm)
+
+      # Initialize some containers
+      invalid_preds_list <<- append(
+        invalid_preds_list,
+        list(character()) |>
+          purrr::set_names(predicate_label)
+      )
+
+      errored_preds_list <<- append(
+        errored_preds_list,
+        list(character()) |>
+          purrr::set_names(predicate_label)
+      )
 
       tryCatch({
         predicate <- predicate_fm |>
@@ -38,7 +51,7 @@ check_schema <- function(data, schema) {
           rlang::as_function()
       }, error = function(e) {
         cli::cli_abort(
-          glue::glue("Error in predicate `{rlang::as_label(predicate_fm)}`"),
+          glue::glue("Error in predicate `{predicate_label}`"),
           call = rlang::caller_env(n = 7)
         )
       })
@@ -61,10 +74,15 @@ check_schema <- function(data, schema) {
       purrr::map(cols, ~{
         actual_class <- class(data[[.x]])
         result <- tryCatch({
-          check_pass <- predicate(data[[.x]])
+          check_pass <- tryCatch({
+            predicate(data[[.x]])
+          }, error = function(e) {
+            errored_preds_list[[predicate_label]] <<- c(errored_preds_list[[predicate_label]], .x)
+            check_errors <<- append(check_errors, purrr::set_names(e$message, predicate_label))
+            FALSE
+          })
           if (!is.logical(check_pass)) {
-            invalid_preds_list$col <<- c(invalid_preds_list$col, .x)
-            invalid_preds_list$pred <<- c(invalid_preds_list$pred, rlang::as_label(predicate_fm))
+            invalid_preds_list[[predicate_label]] <<- c(invalid_preds_list[[predicate_label]], .x)
             FALSE
           }
           stopifnot(check_pass)
@@ -76,7 +94,7 @@ check_schema <- function(data, schema) {
         data.frame(
           col = .x,
           class = actual_class,
-          predicate = rlang::as_label(predicate_fm)
+          predicate = predicate_label
         )
       }) |>
         purrr::list_rbind()
@@ -87,6 +105,8 @@ check_schema <- function(data, schema) {
     }
   )
 
+  schematic_pkgenv$check_errors <- check_errors
+
   fail_idx <- which(purrr::map_lgl(results, ~nrow(.x) > 0))
   pred_names <- pred_names[fail_idx]
 
@@ -94,12 +114,48 @@ check_schema <- function(data, schema) {
 
   out_c <- c()
 
-  if (length(invalid_preds_list[[1]]) > 0) {
-    cols_ticked <- paste0("`", invalid_preds_list$col, "`")
-    plural_prefix <- glue::glue(cli::pluralize("Column{?s} {cols_ticked}"))
-    msg <- glue::glue("{plural_prefix} invalid predicate `{invalid_preds_list$pred[[1]]}`")
+  # Warn on errored predicates
+  errored_preds_list <- purrr::discard(errored_preds_list, ~length(.x) == 0)
+  if (length(errored_preds_list) > 0) {
+    out_err <- c()
+    purrr::iwalk(errored_preds_list, ~{
+      cols_ticked <- paste0("`", .x, "`")
+      plural_prefix <- glue::glue(cli::pluralize("column{?s} {cols_ticked}"))
+      msg <- glue::glue("`{.y}` on {plural_prefix}")
+      out_err <<- c(out_err, msg)
+    })
+    plural_pred <- ""
+    if (length(out_err) > 1) {
+      plural_pred <- "s"
+    }
     cli::cli_warn(
-      c(msg, "i" = "All predicate functions must return a single TRUE/FALSE")
+      c(
+        glue::glue("Error in predicate{plural_pred}:\n"),
+        paste("-", out_err),
+        "i" = "Run {.fn schematic::last_check_errors} to see where the error{plural_pred} occurred."
+      )
+    )
+  }
+
+  # Warn on invalid predicates (non TRUE/FALSE)
+  invalid_preds_list <- purrr::discard(invalid_preds_list, ~length(.x) == 0)
+  if (length(invalid_preds_list) > 0) {
+    out_inv <- c()
+    purrr::iwalk(invalid_preds_list, ~{
+      cols_ticked <- paste0("`", .x, "`")
+      plural_prefix <- glue::glue(cli::pluralize("column{?s} {cols_ticked}"))
+      msg <- glue::glue("`{.y}` on {plural_prefix}")
+      out_inv <<- c(out_inv, msg)
+    })
+    plural_pred <- ""
+    if (length(out_inv) > 1) {
+      plural_pred <- "s"
+    }
+    cli::cli_warn(
+      c(
+        glue::glue("Invalid predicate{plural_pred}:\n"), paste("-", out_inv),
+        "i" = "All predicate functions must return a single TRUE/FALSE"
+      )
     )
   }
 
@@ -119,7 +175,7 @@ check_schema <- function(data, schema) {
     out_c <<- c(out_c, msg)
   })
 
-  cli::cli_abort(c("Schema Error:\n", paste("-", out_c)))
+  cli::cli_abort(c("Schema Error:\n", paste("-", out_c)), call = NULL)
 
   invisible()
 }

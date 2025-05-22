@@ -18,3 +18,7 @@ reference:
   desc: Functions that modify predicates to make new predicates
   contents:
   - starts_with("mod_")
+- title: Other
+  desc: Mix bag of other functions
+  contents:
+  - last_check_errors

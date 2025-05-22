@@ -1,3 +1,13 @@
+# schematic 0.1.2
+
+### Minor changes
+
+- Check run time errors can be inspected using `last_check_errors()`.
+
+### Bug fixes
+
+- Predicates that produce errors are now distinguished between predicates that fail.
+
 # schematic 0.1.1
 
 ### Bug fixes
