@@ -66,7 +66,8 @@ test_that("check_schema works with named args", {
 test_that("check_schema errors on non TRUE/FALSE check", {
   df <- mtcars
   sch <- schema(
-    c(cyl, am) ~ as.character
+    c(cyl, am) ~ as.character,
+    disp ~ as.numeric
   )
   expect_error(
     expect_warning(check_schema(df, sch), "All predicate")
@@ -93,6 +94,23 @@ test_that("rules with an error are handled", {
     ),
     regexp = "Error in predicate"
   )
+
+  sch <- schema(
+    cyl ~ stop,
+    am ~ ~"a" + 3
+  )
+
+  expect_error(
+    expect_warning(
+      check_schema(
+        mtcars,
+        sch
+      ),
+      regexp = "Error in predicate"
+    )
+  )
+
+  expect_snapshot(last_check_errors())
 })
 
 test_that("lots of columns in message are still reported", {
