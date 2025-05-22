@@ -86,7 +86,7 @@ check_schema(
 )
 ```
 
-    Error in `check_schema()`:
+    Error:
     ! Schema Error:
     - Column `some_import_col` missing from data
     - Columns `fct1` and `another_fct` failed check `is.factor`
@@ -108,6 +108,6 @@ my_df <- data.frame(
 check_schema(my_df, my_schema)
 ```
 
-    Error in `check_schema()`:
+    Error:
     ! Schema Error:
     - Column `my_int` failed check `is a whole number`
